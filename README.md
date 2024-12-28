@@ -1,69 +1,57 @@
-# Layanan VPN dengan Berbagai Protokol
+<div align="center">
+    <img src="https://github.com/nixyproject-cfd/vip/blob/main/nixy.jpg" alt="Nixy Project Logo">
+</div>
 
-![Logo VPN](https://github.com/raxnet/vpn/blob/main/nixy.jpg)
+##
 
-## Deskripsi
-
-Proyek ini menyediakan layanan **VPN** yang dapat diinstal pada server Linux untuk meningkatkan keamanan dan privasi pengguna. Layanan yang tersedia meliputi berbagai protokol VPN dan proxy yang dapat dengan mudah dipasang dan dikonfigurasi.
-
-## Sistem Operasi yang Didukung
-
-Layanan ini mendukung beberapa distribusi Linux, termasuk:
-
-- **Debian 9 (Stretch)**
-- **Debian 10 (Buster)**
-- **Ubuntu 18.04 LTS**
-- **Ubuntu 20.04 LTS**
-
+<h2 align="center">
+    <img src="https://img.icons8.com/color/48/000000/debian.png" alt="Debian Icon" width="30"> Supported OS
+</h2>
 <p align="center">
-  <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%209&message=Stretch&color=red" alt="Debian 9 Stretch">
-  <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%2010&message=Buster&color=red" alt="Debian 10 Buster">
-  <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2018&message=18.04%20LTS&color=red" alt="Ubuntu 18.04 LTS">
-  <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2020&message=20.04%20LTS&color=red" alt="Ubuntu 20.04 LTS">
+    <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%209 & 2010&message=Stretch&color=red">
+    <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%2010&message=Buster&color=red">
+    <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2018&message=18.04 LTS&color=red">
+    <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2020&message=20.04 LTS&color=red">
 </p>
 
-## Layanan VPN yang Tersedia
+##
 
-Berikut adalah layanan yang dapat Anda instal:
-
-- **OpenSSH**
-- **Dropbear**
-- **BadVPN**
-- **Stunnel**
-- **OpenVPN**
-- **Squid3**
-- **Webmin**
-- **Privoxy**
-- **V2ray**
-- **ShadowsocksR (SSR)**
-- **Trojan**
-- **WireGuard**
-
+<h2 align="center">
+    <img src="https://img.icons8.com/fluency/48/000000/server.png" alt="Services Icon" width="30"> Supported Services
+</h2>
 <p align="center">
-  <img src="https://img.shields.io/badge/Service-OpenSSH-success.svg" alt="OpenSSH">
-  <img src="https://img.shields.io/badge/Service-Dropbear-success.svg" alt="Dropbear">
-  <img src="https://img.shields.io/badge/Service-BadVPN-success.svg" alt="BadVPN">
-  <img src="https://img.shields.io/badge/Service-Stunnel-success.svg" alt="Stunnel">
-  <img src="https://img.shields.io/badge/Service-OpenVPN-success.svg" alt="OpenVPN">
-  <img src="https://img.shields.io/badge/Service-Squid3-success.svg" alt="Squid3">
-  <img src="https://img.shields.io/badge/Service-Webmin-success.svg" alt="Webmin">
-  <img src="https://img.shields.io/badge/Service-Privoxy-success.svg" alt="Privoxy">
-  <img src="https://img.shields.io/badge/Service-V2ray-success.svg" alt="V2ray">
-  <img src="https://img.shields.io/badge/Service-SSR-success.svg" alt="ShadowsocksR">
-  <img src="https://img.shields.io/badge/Service-Trojan-success.svg" alt="Trojan">
-  <img src="https://img.shields.io/badge/Service-WireGuard-success.svg" alt="WireGuard">
+    <img src="https://img.shields.io/badge/Service-OpenSSH-success.svg">
+    <img src="https://img.shields.io/badge/Service-Dropbear-success.svg">
+    <img src="https://img.shields.io/badge/Service-BadVPN-success.svg">
+    <img src="https://img.shields.io/badge/Service-Stunnel-success.svg">
+    <img src="https://img.shields.io/badge/Service-OpenVPN-success.svg">
+    <img src="https://img.shields.io/badge/Service-Squid3-success.svg">
+    <img src="https://img.shields.io/badge/Service-Webmin-success.svg">
+    <img src="https://img.shields.io/badge/Service-Privoxy-green.svg">
+    <img src="https://img.shields.io/badge/Service-V2ray-success.svg">
+    <img src="https://img.shields.io/badge/Service-SSR-success.svg">
+    <img src="https://img.shields.io/badge/Service-Trojan-success.svg">
+    <img src="https://img.shields.io/badge/Service-WireGuard-success.svg">
 </p>
 
-## Instruksi Instalasi dan Pembaruan
+##
 
-Untuk memulai dengan instalasi atau pembaruan, Anda dapat mengikuti langkah-langkah berikut:
+<h2 align="center">
+    <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/48/000000/external-terminal-development-flatart-icons-outline-flatarticons.png" alt="Commands Icon" width="30"> Commands
+</h2>
 
-### Instalasi Skrip
+<p align="center">
+    <img src="https://img.shields.io/badge/INSTALL-SCRIPT-green">
+</p>
+<pre>
+apt install -y && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/nixyproject-cfd/vip/main/nixystore.sh && chmod +x nixystore.sh && ./nixystore.sh
+</pre>
 
-Jalankan perintah di bawah ini untuk menginstal skrip VPN:
+<p align="center">
+    <img src="https://img.shields.io/badge/UPDATE-SCRIPT-green">
+</p>
+<pre>
+wget https://raw.githubusercontent.com/nixyproject-cfd/vip/main/nixy.sh && chmod +x nixy.sh && ./nixy.sh
+</pre>
 
-```bash
-apt update -y && apt upgrade -y && apt install -y wget lolcat && gem install lolcat
-wget -q https://raw.githubusercontent.com/raxnet/vpn/main/install.sh
-chmod +x install.sh
-./install.sh
+##
