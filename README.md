@@ -40,7 +40,7 @@
 <div align="center">
     <p><b>Installation:</b></p>
     <pre>
-apt install -y && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/username/repo/main/install.ah && chmod +x install.ah && ./install.ah
+apt install -y && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/username/repo/main/install.ah && chmod +x install.sh && ./install.sh
     </pre>
     <p><b>Update:</b></p>
     <pre>
