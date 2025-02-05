@@ -815,6 +815,7 @@ netfilter-persistent reload
 
 
 
+
 # Fungsi untuk mencetak pesan sukses
 function print_success() {
     echo -e "\033[32m$1\033[0m"
@@ -879,7 +880,7 @@ function menu(){
 
 # Membuat Default Menu 
 function profile(){
-clear
+    clear
     cat >/root/.profile <<EOF
 # ~/.profile: executed by Bourne-compatible login shells.
 if [ "$BASH" ]; then
@@ -892,29 +893,29 @@ menu
 EOF
 
     cat >/etc/cron.d/xp_all <<-END
-		SHELL=/bin/sh
-		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		2 0 * * * root /usr/local/sbin/xp
-	END
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        2 0 * * * root /usr/local/sbin/xp
+    END
     cat >/etc/cron.d/logclean <<-END
-		SHELL=/bin/sh
-		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		*/20 * * * * root /usr/local/sbin/clearlog
-		END
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        */20 * * * * root /usr/local/sbin/clearlog
+    END
     chmod 644 /root/.profile
-	
+    
     cat >/etc/cron.d/daily_reboot <<-END
-		SHELL=/bin/sh
-		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		0 5 * * * root /sbin/reboot
-	END
+        SHELL=/bin/sh
+        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+        0 5 * * * root /sbin/reboot
+    END
 
     echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
     echo "*/1 * * * * root echo -n > /var/log/xray/access.log" >>/etc/cron.d/log.xray
     service cron restart
     cat >/home/daily_reboot <<-END
-		5
-	END
+        5
+    END
 
 cat >/etc/systemd/system/rc-local.service <<EOF
 [Unit]
@@ -952,13 +953,13 @@ EOF
     else
         TIME_DATE="AM"
     fi
-print_success "Menu Packet"
+    print_success "Menu Packet"
 }
 
 # Restart layanan after install
 function enable_services(){
-clear
-print_install "Enable Service"
+    clear
+    print_install "Enable Service"
     systemctl daemon-reload
     systemctl start netfilter-persistent
     systemctl enable --now rc-local
@@ -1039,7 +1040,7 @@ EOF
 
 # Fungsionalitas utama instalasi
 function instal(){
-clear
+    clear
     first_setup
     nginx_install
     base_package
