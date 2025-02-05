@@ -813,6 +813,8 @@ netfilter-persistent reload
 
 
 
+
+
 # Fungsi untuk mencetak pesan sukses
 function print_success() {
     echo -e "\033[32m$1\033[0m"
@@ -828,19 +830,19 @@ cd
 apt autoclean -y >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
 print_success "ePro WebSocket Proxy"
-}
 
+# Restarting all services
 function ins_restart(){
-clear
-print_install "Restarting  All Packet"
-/etc/init.d/nginx restart
-/etc/init.d/openvpn restart
-/etc/init.d/ssh restart
-/etc/init.d/dropbear restart
-/etc/init.d/fail2ban restart
-/etc/init.d/vnstat restart
-systemctl restart haproxy
-/etc/init.d/cron restart
+    clear
+    print_install "Restarting All Packet"
+    /etc/init.d/nginx restart
+    /etc/init.d/openvpn restart
+    /etc/init.d/ssh restart
+    /etc/init.d/dropbear restart
+    /etc/init.d/fail2ban restart
+    /etc/init.d/vnstat restart
+    systemctl restart haproxy
+    /etc/init.d/cron restart
     systemctl daemon-reload
     systemctl start netfilter-persistent
     systemctl enable --now nginx
@@ -853,17 +855,17 @@ systemctl restart haproxy
     systemctl enable --now netfilter-persistent
     systemctl enable --now ws
     systemctl enable --now fail2ban
-history -c
-echo "unset HISTFILE" >> /etc/profile
+    history -c
+    echo "unset HISTFILE" >> /etc/profile
 
-cd
-rm -f /root/openvpn
-rm -f /root/key.pem
-rm -f /root/cert.pem
-print_success "All Packet"
+    cd
+    rm -f /root/openvpn
+    rm -f /root/key.pem
+    rm -f /root/cert.pem
+    print_success "All Packet"
 }
 
-#Instal Menu
+# Instalar Menu
 function menu(){
     clear
     print_install "Memasang Menu Packet"
@@ -889,12 +891,12 @@ mesg n || true
 menu
 EOF
 
-cat >/etc/cron.d/xp_all <<-END
+    cat >/etc/cron.d/xp_all <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 		2 0 * * * root /usr/local/sbin/xp
 	END
-	cat >/etc/cron.d/logclean <<-END
+    cat >/etc/cron.d/logclean <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 		*/20 * * * * root /usr/local/sbin/clearlog
@@ -1011,7 +1013,28 @@ function install_python_script(){
     # Berikan izin eksekusi pada skrip Python
     chmod +x "$DIR_SKRIP/api.py"
 
-    print_success "Skrip Python berhasil diunduh dan dependensinya telah diinstal."
+    # Membuat service systemd untuk skrip Python agar berjalan otomatis
+    cat >/etc/systemd/system/python_script.service <<EOF
+[Unit]
+Description=Python Script Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/sbin/skrip/api.py
+WorkingDirectory=/usr/local/sbin/skrip
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    # Reload systemd dan enable service untuk skrip Python
+    systemctl daemon-reload
+    systemctl enable python_script.service
+    systemctl start python_script.service
+
+    print_success "Skrip Python berhasil diunduh dan dijalankan secara otomatis."
 }
 
 # Fungsionalitas utama instalasi
