@@ -811,39 +811,24 @@ netfilter-persistent reload
 
 
 
-
-
-
-
-
-# Fungsi untuk mencetak pesan sukses
-function print_success() {
-    echo -e "\033[32m$1\033[0m"
-}
-
-# Fungsi untuk mencetak pesan instalasi
-function print_install() {
-    echo -e "\033[34m$1\033[0m"
-}
-
 # remove unnecessary files
 cd
 apt autoclean -y >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
 print_success "ePro WebSocket Proxy"
+}
 
-# Restarting all services
 function ins_restart(){
-    clear
-    print_install "Restarting All Packet"
-    /etc/init.d/nginx restart
-    /etc/init.d/openvpn restart
-    /etc/init.d/ssh restart
-    /etc/init.d/dropbear restart
-    /etc/init.d/fail2ban restart
-    /etc/init.d/vnstat restart
-    systemctl restart haproxy
-    /etc/init.d/cron restart
+clear
+print_install "Restarting  All Packet"
+/etc/init.d/nginx restart
+/etc/init.d/openvpn restart
+/etc/init.d/ssh restart
+/etc/init.d/dropbear restart
+/etc/init.d/fail2ban restart
+/etc/init.d/vnstat restart
+systemctl restart haproxy
+/etc/init.d/cron restart
     systemctl daemon-reload
     systemctl start netfilter-persistent
     systemctl enable --now nginx
@@ -856,17 +841,17 @@ function ins_restart(){
     systemctl enable --now netfilter-persistent
     systemctl enable --now ws
     systemctl enable --now fail2ban
-    history -c
-    echo "unset HISTFILE" >> /etc/profile
+history -c
+echo "unset HISTFILE" >> /etc/profile
 
-    cd
-    rm -f /root/openvpn
-    rm -f /root/key.pem
-    rm -f /root/cert.pem
-    print_success "All Packet"
+cd
+rm -f /root/openvpn
+rm -f /root/key.pem
+rm -f /root/cert.pem
+print_success "All Packet"
 }
 
-# Instalar Menu
+#Instal Menu
 function menu(){
     clear
     print_install "Memasang Menu Packet"
@@ -878,9 +863,9 @@ function menu(){
     rm -rf menu.zip
 }
 
-# Membuat Default Menu 
+# Membaut Default Menu 
 function profile(){
-    clear
+clear
     cat >/root/.profile <<EOF
 # ~/.profile: executed by Bourne-compatible login shells.
 if [ "$BASH" ]; then
@@ -892,30 +877,30 @@ mesg n || true
 menu
 EOF
 
-    cat >/etc/cron.d/xp_all <<-END
-        SHELL=/bin/sh
-        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-        2 0 * * * root /usr/local/sbin/xp
-    END
-    cat >/etc/cron.d/logclean <<-END
-        SHELL=/bin/sh
-        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-        */20 * * * * root /usr/local/sbin/clearlog
-    END
+cat >/etc/cron.d/xp_all <<-END
+		SHELL=/bin/sh
+		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+		2 0 * * * root /usr/local/sbin/xp
+	END
+	cat >/etc/cron.d/logclean <<-END
+		SHELL=/bin/sh
+		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+		*/20 * * * * root /usr/local/sbin/clearlog
+		END
     chmod 644 /root/.profile
-    
+	
     cat >/etc/cron.d/daily_reboot <<-END
-        SHELL=/bin/sh
-        PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-        0 5 * * * root /sbin/reboot
-    END
+		SHELL=/bin/sh
+		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+		0 5 * * * root /sbin/reboot
+	END
 
     echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
     echo "*/1 * * * * root echo -n > /var/log/xray/access.log" >>/etc/cron.d/log.xray
     service cron restart
     cat >/home/daily_reboot <<-END
-        5
-    END
+		5
+	END
 
 cat >/etc/systemd/system/rc-local.service <<EOF
 [Unit]
@@ -953,13 +938,13 @@ EOF
     else
         TIME_DATE="AM"
     fi
-    print_success "Menu Packet"
+print_success "Menu Packet"
 }
 
 # Restart layanan after install
 function enable_services(){
-    clear
-    print_install "Enable Service"
+clear
+print_install "Enable Service"
     systemctl daemon-reload
     systemctl start netfilter-persistent
     systemctl enable --now rc-local
@@ -972,6 +957,8 @@ function enable_services(){
     print_success "Enable Service"
     clear
 }
+
+
 
 # Instalasi Skrip Python dan dependensinya
 function install_python_script(){
@@ -1067,6 +1054,9 @@ function instal(){
     install_python_script
     restart_system
 }
+
+
+
 instal
 echo ""
 history -c
@@ -1083,3 +1073,8 @@ echo -e "${green} Script Successfull Installed"
 echo ""
 read -p "$( echo -e "Press ${YELLOW}[ ${NC}${YELLOW}Enter${NC} ${YELLOW}]${NC} For Reboot") "
 reboot
+
+
+
+
+
