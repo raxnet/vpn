@@ -1,5 +1,5 @@
 <div align="center" style="padding: 20px; background-color: #f3f4f6; border-radius: 10px;">
-    <img src="https://github.com/username/repo/blob/main/raxnet.png?raw=true" alt="raxnet " width="200">
+    <img src="https://github.com/raxnet/vpn/blob/main/raxnet.png?raw=true" alt="raxnet " width="200">
     <h1>Welcome to <span style="color: #ff5733;">RAXNET</span></h1>
     <p>Your All-in-One Networking Solution</p>
 </div>
