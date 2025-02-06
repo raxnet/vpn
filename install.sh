@@ -811,6 +811,8 @@ netfilter-persistent reload
 
 
 
+
+
 # remove unnecessary files
 cd
 apt autoclean -y >/dev/null 2>&1
@@ -941,6 +943,88 @@ EOF
 print_success "Menu Packet"
 }
 
+
+
+# Warna tampilan
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# Nama layanan systemd
+SERVICE_NAME="xray-monitor"
+SCRIPT_PATH="/root/xray_monitor.py"
+GITHUB_URL="https://raw.githubusercontent.com/raxnet/vpn/main/api.py"
+
+clear
+
+echo -e "${BLUE}====================================${RESET}"
+echo -e "${YELLOW} Xray Monitor Auto Installer${RESET}"
+echo -e "${BLUE}====================================${RESET}\n"
+
+# Pastikan skrip dijalankan sebagai root
+if [[ $EUID -ne 0 ]]; then
+    echo -e "${RED}❌ Skrip ini harus dijalankan sebagai root!${RESET}"
+    exit 1
+fi
+
+# Update sistem dan install dependensi
+echo -e "${GREEN}🔄 Mengupdate sistem dan menginstal dependensi...${RESET}"
+apt update -y && apt install -y python3 python3-pip curl || {
+    echo -e "${RED}❌ Gagal menginstal dependensi!${RESET}"
+    exit 1
+}
+
+# Install pustaka Python yang diperlukan
+echo -e "${GREEN}📦 Menginstal pustaka Python...${RESET}"
+pip3 install flask psutil || {
+    echo -e "${RED}❌ Gagal menginstal pustaka Python!${RESET}"
+    exit 1
+}
+
+# Unduh skrip Python dari GitHub
+echo -e "${GREEN}📥 Mengunduh skrip Python dari GitHub...${RESET}"
+curl -sL "$GITHUB_URL" -o "$SCRIPT_PATH" || {
+    echo -e "${RED}❌ Gagal mengunduh skrip!${RESET}"
+    exit 1
+}
+
+# Pastikan skrip bisa dieksekusi
+chmod +x "$SCRIPT_PATH"
+
+# Membuat layanan systemd
+echo -e "${GREEN}⚙️  Membuat layanan systemd...${RESET}"
+cat > /etc/systemd/system/$SERVICE_NAME.service <<EOF
+[Unit]
+Description=Xray Monitor Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 $SCRIPT_PATH
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd, aktifkan dan jalankan layanan
+echo -e "${GREEN}🚀 Mengaktifkan layanan systemd...${RESET}"
+systemctl daemon-reload
+systemctl enable $SERVICE_NAME
+systemctl start $SERVICE_NAME
+
+# Cek status layanan
+echo -e "\n${BLUE}====================================${RESET}"
+echo -e "${GREEN}✅ Instalasi selesai!${RESET}"
+echo -e "🔹 Skrip berjalan otomatis sebagai layanan systemd."
+echo -e "🔹 Cek status dengan: ${YELLOW}systemctl status $SERVICE_NAME${RESET}"
+echo -e "🔹 Jika ada error, restart dengan: ${YELLOW}systemctl restart $SERVICE_NAME${RESET}"
+echo -e "${BLUE}====================================${RESET}"
+
+
+
 # Restart layanan after install
 function enable_services(){
 clear
@@ -958,76 +1042,9 @@ print_install "Enable Service"
     clear
 }
 
-
-
-# Instalasi Skrip Python dan dependensinya
-function install_python_script(){
-    clear
-    print_install "Mengunduh dan menginstal skrip Python"
-
-    # Tentukan URL atau path skrip Python kamu
-    URL_SKRIP="https://github.com/raxnet/vpn/api.py"
-    DIR_SKRIP="/usr/local/sbin/skrip"
-
-    # Tentukan URL atau path untuk file requirements.txt (jika ada)
-    URL_REQUIREMENTS="https://github.com/raxnet/vpn/requirements.txt"
-
-    # Instal pip jika belum ada
-    if ! command -v pip &> /dev/null
-    then
-        echo "pip tidak ditemukan, menginstal pip..."
-        apt update && apt install -y python3-pip
-    fi
-
-    # Buat direktori untuk skrip jika belum ada
-    if [ ! -d "$DIR_SKRIP" ]; then
-        echo "Membuat direktori untuk skrip..."
-        mkdir -p "$DIR_SKRIP"
-    fi
-
-    # Unduh skrip Python
-    echo "Mengunduh skrip Python..."
-    wget -O "$DIR_SKRIP/api.py" "$URL_SKRIP"
-
-    # Jika file requirements.txt ada, unduh dan instal dependensinya
-    if wget --spider "$URL_REQUIREMENTS" 2>/dev/null; then
-        echo "Mengunduh dan menginstal dependensi dari requirements.txt..."
-        wget -O "$DIR_SKRIP/requirements.txt" "$URL_REQUIREMENTS"
-        pip3 install -r "$DIR_SKRIP/requirements.txt"
-    else
-        echo "File requirements.txt tidak ditemukan atau tidak tersedia."
-    fi
-
-    # Berikan izin eksekusi pada skrip Python
-    chmod +x "$DIR_SKRIP/api.py"
-
-    # Membuat service systemd untuk skrip Python agar berjalan otomatis
-    cat >/etc/systemd/system/python_script.service <<EOF
-[Unit]
-Description=Python Script Service
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/python3 /usr/local/sbin/skrip/api.py
-WorkingDirectory=/usr/local/sbin/skrip
-Restart=always
-User=root
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-    # Reload systemd dan enable service untuk skrip Python
-    systemctl daemon-reload
-    systemctl enable python_script.service
-    systemctl start python_script.service
-
-    print_success "Skrip Python berhasil diunduh dan dijalankan secara otomatis."
-}
-
-# Fungsionalitas utama instalasi
+# Fingsi Install Script
 function instal(){
-    clear
+clear
     first_setup
     nginx_install
     base_package
@@ -1051,12 +1068,8 @@ function instal(){
     menu
     profile
     enable_services
-    install_python_script
     restart_system
 }
-
-
-
 instal
 echo ""
 history -c
@@ -1073,8 +1086,3 @@ echo -e "${green} Script Successfull Installed"
 echo ""
 read -p "$( echo -e "Press ${YELLOW}[ ${NC}${YELLOW}Enter${NC} ${YELLOW}]${NC} For Reboot") "
 reboot
-
-
-
-
-
